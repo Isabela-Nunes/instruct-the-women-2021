@@ -4,10 +4,8 @@ def version_exists(package_name, version):
     
     repository = f"https://pypi.org/pypi/{package_name}/{version}/json"
     response = requests.get(repository)
-    
     if response.status_code == 200:
         return True
-    
     else:
         return False
 
@@ -16,21 +14,9 @@ def latest_version(package_name):
     
     repository = f"https://pypi.org/pypi/{package_name}/json"
     response = requests.get(repository)
-    
     if response.status_code == 404:
         return None
-    
     else:
         response = response.json()
-        return response['info']['version']
-
-
-#def project_name(name):
-
-#    repository = f"https://8000-tan-damselfly-8cnb2igv.ws-us17.gitpod.io/api/projects/pypi/{name}/json"
-#    response = requests.get(repository)
-
-#    if response.status_code == 200:
-#        return response['name']
-#    else:
-#        pass
+        version = response['info']['version']
+        return version
