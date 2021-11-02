@@ -1,20 +1,36 @@
 import requests
 
-# Referências sobre o uso do requests:
-#
-# Fazendo requisições:
-# https://docs.python-requests.org/en/master/user/quickstart/#make-a-request
-# Usando JSON retornado:
-# https://docs.python-requests.org/en/master/user/quickstart/#json-response-content
-
 def version_exists(package_name, version):
-    # TODO
-    # Fazer requisição na API do PyPI para checar se a versão existe
-    return False
+    
+    repository = f"https://pypi.org/pypi/{package_name}/{version}/json"
+    response = requests.get(repository)
+    
+    if response.status_code == 200:
+        return True
+    
+    else:
+        return False
 
 
 def latest_version(package_name):
-    # TODO
-    # Fazer requisição na API do PyPI para descobrir a última versão
-    # de um pacote. Retornar None se o pacote não existir.
-    return "?"
+    
+    repository = f"https://pypi.org/pypi/{package_name}/json"
+    response = requests.get(repository)
+    
+    if response.status_code == 404:
+        return None
+    
+    else:
+        response = response.json()
+        return response['info']['version']
+
+
+#def project_name(name):
+
+#    repository = f"https://8000-tan-damselfly-8cnb2igv.ws-us17.gitpod.io/api/projects/pypi/{name}/json"
+#    response = requests.get(repository)
+
+#    if response.status_code == 200:
+#        return response['name']
+#    else:
+#        pass
